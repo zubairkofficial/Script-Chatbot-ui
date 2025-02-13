@@ -19,7 +19,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 
 // Menu items.
@@ -71,7 +70,7 @@ export function AppSidebar() {
                 />
                 <span className="text-xl tracking-tight font-semibold">Script</span>
               </div>
-              <SidebarTrigger />
+             
             </div>
             <div className="relative w-full max-w-xs rounded-full border">
               <Search

@@ -11,6 +11,7 @@ import {
   FileSearch,
   Ellipsis,
   SendHorizontal,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -51,11 +52,23 @@ const projects: Project[] = [
 ];
 
 export default function Dashboard() {
-
   const [inputValue, setInputValue] = useState("");
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setSelectedImage(imageUrl);
+    }
+  };
+
+  const removeImage = () => {
+    setSelectedImage(null);
   };
 
   return (
@@ -157,8 +170,26 @@ export default function Dashboard() {
         </div>
 
         {/* Input Area */}
-        <div className="fixed bottom-0 w-full max-w-[800px] px-4 py-4 bg-white z-10">
+        <div className="w-full max-w-[800px] px-4 py-4 mt-28 bg-white">
           <Card>
+            {/* Image Preview */}
+            {selectedImage && (
+              <div className="relative mb-4 inline-block">
+                <img
+                  src={selectedImage}
+                  alt="Selected"
+                  className="w-20 h-20 object-cover rounded-lg border"
+                />
+                <button
+                  onClick={removeImage}
+                  className="absolute -top-2 -right-2 bg-[#f9fbfc] text-black rounded-full p-1 border border-white"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+
+            {/* Input Field */}
             <div className="flex items-center gap-4">
               <input
                 type="text"
@@ -167,8 +198,8 @@ export default function Dashboard() {
                 onChange={handleInputChange}
                 className="flex-1 bg-transparent outline-none p-4"
               />
-                {/* Show send icon only when typing */}
-                {inputValue.length > 0 && (
+              {/* Show send icon only when typing */}
+              {inputValue.length > 0 && (
                 <Button
                   variant="ghost"
                   size="icon"
@@ -178,25 +209,37 @@ export default function Dashboard() {
                 </Button>
               )}
             </div>
+
+            {/* Attachments Section */}
             <div className="flex items-center justify-between border-t bg-[#f9fbfc] rounded-b-lg">
               <div className="flex items-center gap-4">
-                <a href="#" className="py-2 px-3 flex items-center space-x-1">
+                <label
+                  htmlFor="imageUpload"
+                  className="py-2 px-3 flex items-center space-x-1 cursor-pointer"
+                >
                   <Paperclip className="w-4 h-4" />
-                  <span className=" text-sm">Attach</span>
-                </a>
+                  <span className="text-sm">Attach</span>
+                </label>
+                <input
+                  type="file"
+                  id="imageUpload"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
                 <a
                   href="#"
                   className="py-2 px-3 flex items-center space-x-1 border-l"
                 >
                   <AudioLines className="w-4 h-4" />
-                  <span className=" text-sm">Voice Message</span>
+                  <span className="text-sm">Voice Message</span>
                 </a>
                 <a
                   href="#"
                   className="py-2 px-3 flex items-center space-x-1 border-l"
                 >
                   <FileSearch className="w-4 h-4" />
-                  <span className=" text-sm">Browse Prompts</span>
+                  <span className="text-sm">Browse Prompts</span>
                 </a>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground p-4">
@@ -204,7 +247,7 @@ export default function Dashboard() {
               </div>
             </div>
           </Card>
-          </div>
+        </div>
       </main>
 
       {/* Right Sidebar */}

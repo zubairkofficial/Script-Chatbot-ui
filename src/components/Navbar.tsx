@@ -6,7 +6,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  
 } from "@/components/ui/dropdown-menu";
+import { SidebarTrigger } from "./ui/sidebar";
 
 export default function Navbar() {
   return (
@@ -14,6 +16,7 @@ export default function Navbar() {
       <div className="container px-4 mx-auto text-sm">
         <div className="flex justify-between items-center">
           <div className="flex items-center flex-shrink-0">
+          <SidebarTrigger className="h-10 w-5 mr-2" />
             <span className="text-xl tracking-tight">Ai Chat</span>
           </div>
           <div className="flex justify-center space-x-7 items-center">
